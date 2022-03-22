@@ -13,12 +13,21 @@ use Illuminate\Database\Eloquent\Collection;
 class RelationRepeater extends Repeater
 {
     protected bool $isRelation = false;
+    protected string $relationModelClass = '';
     protected Collection $relatedData;
 
     public function init()
     {
         // Determines if the Repeater will work as a relation or a JSON field
-        $this->isRelation = $this->model->hasRelation($this->valueFrom);
+        // Only hasMany relation types are supported
+        $this->isRelation =
+            $this->model->hasRelation($this->valueFrom) &&
+            $this->model->getRelationType($this->valueFrom) === 'hasMany';
+
+        if ($this->isRelation) {
+            $this->relationModelClass = $this->model->getRelationDefinition($this->valueFrom)[0];
+            $this->sortable = in_array('Winter\Storm\Database\Traits\Sortable', class_uses($this->relationModelClass));
+        }
         // $this->addViewPath("modules/backend/formwidgets/repeater/partials");
 
         parent::init();
@@ -29,6 +38,7 @@ class RelationRepeater extends Repeater
         parent::prepareVars();
 
         $this->vars['isRelation'] = $this->isRelation;
+        $this->vars['sortable'] = $this->sortable;
     }
 
     protected function loadAssets()
@@ -74,7 +84,10 @@ class RelationRepeater extends Repeater
 
             foreach ($value as $index => $data) {
                 $record = null;
-                $data['sort_order'] = $index + 1;
+
+                if ($this->sortable) {
+                    $data['sort_order'] = $index + 1;
+                }
 
                 // Try to load an existing related record
                 if (isset($data['_id'])) {
