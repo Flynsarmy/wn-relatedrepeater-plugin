@@ -1,0 +1,31 @@
+# ===================================
+#  Form Behavior Config
+# ===================================
+
+# Record name
+name: Option
+
+# Model Form Field configuration
+form: $/flynsarmy/relatedrepeater/models/option/fields.yaml
+
+# Model Class name
+modelClass: Flynsarmy\RelatedRepeater\Models\Option
+
+# Default redirect location
+defaultRedirect: flynsarmy/relatedrepeater/options
+
+# Create page
+create:
+    title: Create Option
+    redirect: flynsarmy/relatedrepeater/options/update/:id
+    redirectClose: flynsarmy/relatedrepeater/options
+
+# Update page
+update:
+    title: Edit Option
+    redirect: flynsarmy/relatedrepeater/options
+    redirectClose: flynsarmy/relatedrepeater/options
+
+# Preview page
+preview:
+    title: Preview Option

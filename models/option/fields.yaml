@@ -1,0 +1,24 @@
+# ===================================
+#  Form Field Definitions
+# ===================================
+
+fields:
+    title:
+        label: Title
+
+    option_values:
+        label: Values
+        # type: repeater
+        type: Flynsarmy\RelatedRepeater\FormWidgets\RelationRepeater
+        titleFrom: value
+        form:
+            fields:
+                key:
+                    label: Key
+                    type: text
+                    span: left
+
+                value:
+                    label: Value
+                    type: text
+                    span: right
