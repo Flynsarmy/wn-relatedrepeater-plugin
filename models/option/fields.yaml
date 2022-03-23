@@ -11,6 +11,8 @@ fields:
         # type: repeater
         type: Flynsarmy\RelatedRepeater\FormWidgets\RelationRepeater
         titleFrom: value
+        minItems: 1
+        maxItems: 2
         form:
             fields:
                 key:
